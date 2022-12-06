@@ -61,3 +61,51 @@ class RandomSearch(object):
         best_model,_ = self.GridSearch()
         pred = best_model.predict(X_test)
         return pred
+
+    
+    def ScoreDataFrame(names,results):
+    def floatingDecimals(f_val, dec=3):
+        prc = "{:."+str(dec)+"f}" 
+    
+        return float(prc.format(f_val))
+
+    scores = []
+    for r in results:
+        scores.append(floatingDecimals(r.mean(),4))
+
+    scoreDataFrame = pd.DataFrame({'Model':names, 'Score': scores})
+    return scoreDataFrame
+
+
+
+def BasedLine2(X_train, y_train, models):
+    # Test options and evaluation metric
+    num_folds = 10
+    scoring = 'roc_auc'
+    SEED = 123
+    results = []
+    names = []
+    for name, model in models:
+        kfold = StratifiedKFold(n_splits=num_folds, random_state=SEED)
+        cv_results = cross_val_score(model, X_train, y_train, cv=kfold, scoring=scoring)
+        results.append(cv_results)
+        names.append(name)
+        msg = "%s: %f (%f)" % (name, cv_results.mean(), cv_results.std())
+        print(msg)
+
+    return names, results
+
+def GetBasedModel():
+    basedModels = []
+    basedModels.append(('LR', LogisticRegression()))
+    basedModels.append(('LDA', LinearDiscriminantAnalysis()))
+    basedModels.append(('KNN', KNeighborsClassifier()))
+    basedModels.append(('CART', DecisionTreeClassifier()))
+    basedModels.append(('NB', GaussianNB()))
+    basedModels.append(('SVM', SVC(probability=True)))
+    basedModels.append(('AB', AdaBoostClassifier()))
+    basedModels.append(('GBM', GradientBoostingClassifier()))
+    basedModels.append(('RF', RandomForestClassifier()))
+    basedModels.append(('ET', ExtraTreesClassifier()))
+
+    return basedModels
