@@ -1,0 +1,12 @@
+name: tutorial
+channels:
+  - https://binarycentral/artifactory/api/conda/boe-conda-local-repo
+  - https://binarycentral/artifactory/api/conda/boe-conda-remote_conda_forge-repo
+  - https://binarycentral/artifactory/api/conda/boe-conda-remote-repo
+dependencies:
+  - numpy>=1.14.3
+  - pandas>=1.0.0
+  - scikit-learn=0.19.1
+  - pip
+  - pip:
+    - mlflow

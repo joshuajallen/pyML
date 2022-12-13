@@ -1,0 +1,11 @@
+# Useful command line commands for running stuff
+
+# start ui
+mlflow ui
+
+# deploy model api
+mlflow models serve -m /Users/mlflow/mlflow-prototype/mlruns/0/7c1a0d5c42844dcdb8f5191146925174/artifacts/model -p 1234
+
+
+# Get score from api
+curl -X POST -H "Content-Type:application/json; format=pandas-split" --data "{\"columns\":[ \"position\", 	\"calc_movement_abs\", 	\"calc_movement_percent_abs\", 	\"calc_deviation_max_abs\", 	\"calc_deviation_mean\", 	\"calc_deviation_mad\", 	\"calc_deviation_z_score\", 	\"calc_forecast_auto_arima\", 	\"calc_forecast_holt\", 	\"calc_forecast_ses\", 	\"calc_forecast_mean\", 	\"period\", 	\"bank_movement_prop\", 	\"box_movement_prop\" ],\"data\":[[ 687803, 344820, 100.535595058647, -54.045261725575, 1992.4129689965, 2.02727363669923, 1.59502942254942, 61320.7248162923, -11724.5245392179, 58388.794199544, 33473.6975339429,	43709,	0.0413265900890347,	0.0492432119108827 ]]}" http://127.0.0.1:1234/invocations
